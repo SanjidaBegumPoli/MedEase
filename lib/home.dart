@@ -16,11 +16,30 @@ class _HomeState extends State<Home> {
   String email = 'sanjida@example.com';
   String phone = '+8801234567890';
 
+  final TextEditingController _searchController = TextEditingController();
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
+  final List<Map<String, String>> categories = [
+    {'title': 'Cardiologist', 'image': 'assets/images/01.png'},
+    {'title': 'Dermatologist', 'image': 'assets/images/01.png'},
+    {'title': 'Neurologist', 'image': 'assets/images/01.png'},
+    {'title': 'Pediatrician', 'image': 'assets/images/01.png'},
+    {'title': 'Orthopedic', 'image': 'assets/images/01.png'},
+    {'title': 'Psychiatrist', 'image': 'assets/images/01.png'},
+    {'title': 'Gynecologist', 'image': 'assets/images/01.png'},
+    {'title': 'Urologist', 'image': 'assets/images/01.png'},
+    {'title': 'Oncologist', 'image': 'assets/images/01.png'},
+    {'title': 'ENT Specialist', 'image': 'assets/images/01.png'},
+    {'title': 'Ophthalmologist', 'image': 'assets/images/01.png'},
+    {'title': 'Dentist', 'image': 'assets/images/01.png'},
+    {'title': 'Gastroenterologist', 'image': 'assets/images/01.png'},
+    {'title': 'General Physician', 'image': 'assets/images/01.png'},
+  ];
 
   List<Widget> get _pages => [
         buildHomePage(),
@@ -29,23 +48,6 @@ class _HomeState extends State<Home> {
       ];
 
   Widget buildHomePage() {
-    var categories = [
-      {'title': 'Cardiologist', 'image': 'assets/images/01.png'},
-      {'title': 'Dermatologist', 'image': 'assets/images/01.png'},
-      {'title': 'Neurologist', 'image': 'assets/images/01.png'},
-      {'title': 'Pediatrician', 'image': 'assets/images/01.png'},
-      {'title': 'Orthopedic', 'image': 'assets/images/01.png'},
-      {'title': 'Psychiatrist', 'image': 'assets/images/01.png'},
-      {'title': 'Gynecologist', 'image': 'assets/images/01.png'},
-      {'title': 'Urologist', 'image': 'assets/images/01.png'},
-      {'title': 'Oncologist', 'image': 'assets/images/01.png'},
-      {'title': 'ENT Specialist', 'image': 'assets/images/01.png'},
-      {'title': 'Ophthalmologist', 'image': 'assets/images/01.png'},
-      {'title': 'Dentist', 'image': 'assets/images/01.png'},
-      {'title': 'Gastroenterologist', 'image': 'assets/images/01.png'},
-      {'title': 'General Physician', 'image': 'assets/images/01.png'},
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -232,6 +234,65 @@ class _HomeState extends State<Home> {
     );
   }
 
+  void _showSearchDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            'Search Category',
+            style: TextStyle(fontFamily: 'Ubuntu'),
+          ),
+          content: TextField(
+            controller: _searchController,
+            decoration: const InputDecoration(
+              hintText: 'Type a category...',
+              hintStyle: TextStyle(fontFamily: 'Ubuntu'),
+            ),
+            style: const TextStyle(fontFamily: 'Ubuntu'),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Cancel', style: TextStyle(fontFamily: 'Ubuntu')),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Search', style: TextStyle(fontFamily: 'Ubuntu')),
+              onPressed: () {
+                final query = _searchController.text.trim();
+                final match = categories.firstWhere(
+                  (category) => category['title']!.toLowerCase() == query.toLowerCase(),
+                  orElse: () => {},
+                );
+
+                Navigator.pop(context); // close dialog
+
+                if (match.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DoctorListPage(
+                        category: match['title']!,
+                      ),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('No category found.', style: TextStyle(fontFamily: 'Ubuntu')),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -243,25 +304,11 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.blue.shade500,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search,color: Colors.white),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title:  Text('Search',),
-                  content: const Text('Search functionality goes here.'),
-                  actions: [
-                    TextButton(
-                      child: const Text('Close'),
-                      onPressed: () => Navigator.pop(context),
-                    )
-                  ],
-                ),
-              );
-            },
+            icon: const Icon(Icons.search, color: Colors.white),
+            onPressed: _showSearchDialog,
           ),
           IconButton(
-            icon: const Icon(Icons.settings,color: Colors.white),
+            icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: () {
               showDialog(
                 context: context,
