@@ -8,7 +8,7 @@ class DoctorListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Sample doctor data
+    
     final List<Map<String, String>> doctors = List.generate(10, (index) {
       return {
         'name': 'Dr. ${['John Smith', 'Emily Khan', 'Robert Ali', 'Sophia Roy', 'Michael Zaman', 'Ayesha Islam', 'David Chowdhury', 'Sarah Tanvir', 'Imran Haque', 'Fatema Noor'][index]}',

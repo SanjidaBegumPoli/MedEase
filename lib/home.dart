@@ -248,6 +248,7 @@ class _HomeState extends State<Home> {
             decoration: const InputDecoration(
               hintText: 'Type a category...',
               hintStyle: TextStyle(fontFamily: 'Ubuntu'),
+              
             ),
             style: const TextStyle(fontFamily: 'Ubuntu'),
           ),

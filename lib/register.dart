@@ -161,6 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 // Password
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 30, right: 30),
+                  
                   child: TextFormField(
                     controller: _passController,
                     validator: _validatePassword,
@@ -174,6 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       label: const Text('Enter Password'),
                       prefixIcon: const Icon(Icons.password_rounded),
                       filled: true,
+                      
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(width: 3)),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// This list holds the booked appointments globally
+
 List<Map<String, String>> bookedAppointments = [];
 
 class DoctorProfilePage extends StatelessWidget {

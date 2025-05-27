@@ -27,5 +27,6 @@ class MyApp extends StatelessWidget {
       ),
       home: Splash(),
     );
+
   }
 }
